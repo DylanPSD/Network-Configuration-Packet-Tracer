@@ -25,10 +25,17 @@ EN
 In this project, we will configure a network step by step in Packet Tracer, where we will set it up from the terminal of routers, switches and layer 3 switches to ensure proper packet routing, comunication between PCs, domain resolution from the server, IP assignment via a DHCP server and router, transation of local IPs to global IPs, IP telephony communication, access control to diferent resources using access-lists, the creation of VLANs, and the corresponding IP asssignment using:
 
 -IP
+
 -OSPF
+
 -DHCP
+
 -VLAN
+
 -VOIP
+
 -Standard/Extended Access-lists
+
 -Static/Dynamic NAT
+
 -PAT Port Overload/Overload with Address Pool

@@ -1,4 +1,4 @@
-# Network-Configuration-Packey-Tracer
+# Network-Configuration-Packet-Tracer
 This is a network configuration guide in Packet Tracer
 
 --ES--

@@ -31,13 +31,29 @@ Dsipositivos intermedios que separan y comunican redes, tamnbien enrutan paquete
 - **PC**: Cliente de servicios en la red.  
 - **Servidor**: Proveedor de servicios como DHCP, DNS o TFTP.  
 
+---  
+
+## Modo EXEC privilegiado  
+Este modo permite realiazar configuraciones y administra el sistema de manera completa, proporciona un conjunto amplio de comandos. A diferencia del modo EXEC básico o de usuario.  
+>se indica con un "#" al final del nombre del dispositivo en la linea de comandos
+---  
+
+## Modo de configuración global  
+En este modo se permite hacer configuraciones que afectan al dispositivo en su totalidad. Desde este modo se puede acceder a submodos para: configurar interfaces, protocolos...  
+>Se identifica con un "(config)#" en la linea de comandos
+
 ---
 
 ## Direcciones y Protocolos  
 
 - **Protocolo de Internet (IP)**: Dirección única que identifica un dispositivo final en una red.  
 - **Máscara de Subred**: Número de 32 o 128 bits que identifica la parte de red y la parte de host en una IP.  
-- **Máscara Wildcard**: Cadena de 32 bits utilizada por el router para determinar las partes de red y host, principalmente en protocolos como OSPF.
+- **Máscara Wildcard**: Cadena de 32 bits utilizada por el router para determinar las partes de red y host, principalmente en protocolos como OSPF.  
+
+---
+
+## Puerta de enlace predeterminada (Default Gateway)
+Esto se refiere a dispositivos o IP que se comportan como puntos de acceso para enviar datos fuera de su propia red.
 
 ---
 

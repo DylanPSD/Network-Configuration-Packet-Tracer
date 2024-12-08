@@ -26,7 +26,7 @@ Escribiendo lo siguiente:
 `configure terminal`  
 
 ### 4. Acceder al a interfaz 
-Elige la interfaz que deseas configurar. Por ejemplo para la iterfaz fa0/0,  utiliza:  
+Elige la interfaz que deseas configurar. Por ejemplo para la interfaz fa0/0,  utiliza:  
 ```interface fa0/0```  
 
 ### 5. Asignar una direccion IP  
@@ -301,7 +301,7 @@ Deberemos clicar en el servidor, abrir la pestaña services y abrir DHCP
 
 >también necesitaremos un __servidor DNS__ que en nuestro caso es 190.190.32.2.  
 
->Justo debajo aparece __"Start IP Address"__ donde deberemos poner la ip por la que queramos que empiece a asiganr IPs, este apartado se utiliza para hacer "exclusiones", nosotros empezaremos en la 190.190.16.11 con la mascara de subred 255.255.255.0.  
+>Justo debajo aparece __"Start IP Address"__ donde deberemos poner la ip por la que queramos que empiece a asignar IPs, este apartado se utiliza para hacer "exclusiones", nosotros empezaremos en la 190.190.16.11 con la mascara de subred 255.255.255.0.  
 
 ### 2. Configurar la interfaz  
 Para que se puedan asignar las IP a los dipositivos finales debemos configurar la interfaz del router, en este caso "CACERES", desde 
@@ -327,9 +327,88 @@ Desde el modo de configuración global escribiremos:
 
 >_"network 190.190.200.0 255.255.255.0" define el rango de red en el que se van a asignar las IP y la mascara de subred que se asignará_  
 
->_"default-router" especifica cual es la default gateway(Puerta de enlace predeterminada)_  
+>_default-router" especifica cual es la default gateway(Puerta de enlace predeterminada)_  
 
 >_"dns-server" especifica cual va a ser el servidor DNS que asigne junto a las IP._   
 
->_Al estar conectada la red 190.190.200.0 al router toledo no hace falta poner "ip helper-address" ya que se reconoce a sí mismo como servidor DHCP_
+>_Al estar conectada la red 190.190.200.0 al router toledo no hace falta poner "ip helper-address" ya que se reconoce a sí mismo como servidor DHCP_  
 
+---
+
+# Copiar la configuaración de un router al servidor TFTP  
+
+---  
+
+## Pasos a seguir:  
+
+### 1. Identificar la configuración a copiar  
+Para seleccionar la configuración correcta a copiar debes conocer las diferentes memorias de un router que estan explicadas en [conceptos](./Conceptos.md).  
+
+### 2. copiar la configuración a la memoria.
+Una vez identificada la configuración a copiar. Y teniendo el servidor TFTP activo. Desde el modo EXEC privilgiado deberemos escribir lo siguiente:  
+
+`copy running-config startup-config`  
+>Esto lo que hará es que copiará la configuración activa a la memoria no volátil.  
+
+### 3. Copiar la memoria al servidor TFTP  
+Para poder copiar la memoriá al servidor TFTP deberesmo escribir:  
+`copy startup-config tftp`  
+`190.190.32.2`  
+
+>_"copy startup-config tftp" indica la memoria que quiere copiar y donde se va a almacenar_  
+>_"190.190.32.2" el da dirección ip del servidor TFTP_  
+
+---
+
+# configuración de ACL estándar
+
+---
+
+>Para poder configurar una ACL deberemos tener claro donde se deben configurar que está explicado en [Conceptos](./Conceptos.md). Nosotros estaremos utiilizando el enunciado [Enunciado](./enunciado.md) como ejemplo para explicar las ACL.
+## Pasos a seguir:  
+
+### 1. Crear la ACL estándar
+
+- **ACL estándar numerada**
+La ACL estándar numerada se debe crear desde el modo de configuración global como en el siguiente ejemplo.
+`ip access-list 1 permit host 190.190.100.11`  
+`ip access-list 1 permit host 190.190.100.12`  
+`ip access-list 1 permit host 190.190.200.26`  
+`ip access-list 1 permit host 190.190.200.27`    
+`ip access-list 1 deny 190.190.100.0 255.255.255.0`  
+`ip access-list 1 deny any`
+
+>_"ip access-list 1" hace referencia a la creación de la access-list con el nº 1_
+>_"permit 190.190.x.x" permite el acceso del equipoo con dicha IP a la red de servidores_  
+>_"deny 190.190.100.0 255.255.255.0" deniega el acceso de la red 190.190.100.0 a la red de servidores_  
+>_"deny any" lo que hace es denegar todo el trafico a la red. Aunque se deniega el trafico nada mas crear una ACL nosotros lo pondremos ya que se requiere en el enunciado._
+
+- **ACL estándar nombrada**  
+La ACL estándar nombrada se debe crear desde el modo de configuración global como en el siguiente ejemplo.  
+`ip access-list standard telnet`  
+`permit 190.190.100.0 255.255.255.0`  
+`deny any`  
+
+>_"ip access-list standard vty" crea y nos mueve al menú de la ACL "telnet"_  
+>_"permit 190.190.100.0 255.255.255.0" permite el acceso de la red "190.190.100.0" a las lines VTY del router Madrid_  
+
+### 2. Asignar la ACL a la interfáz
+Las ACL se asignan a la interfáz de manera similar. Nosotros haremos una distinción ya que con la ACL estándar nombrada vamos a estar controlando las lines VTY del router Madrid.
+
+- **ACL estándar numerada**  
+Para asiganar la ACL a una interfáz, en este caso del router "AVILA" desde el modo de configuración global escribe lo siguiente:  
+
+`interface fa0/0`  
+`ip access-group 1 out`  
+
+>_"interface fa0/0" se utiliza para entrar en la interfáz_  
+>_"ip access-group 1 out" se utiliza para asignar la ACL nº 1 a la interfáz como "out". El 1 se puede cambiar por un nombre_
+
+- **ACL estándar nombrada VTY**
+Para asignar la ACL a las lineas VTY, en este caso del router MADRID, desde el modo de configuración global escribe lo siguiente:  
+
+`line vty 0 4`  
+`access-class telnet in`  
+
+>_"line vty 0 4" se utiliza para acceder a las lines VTY en este caso son 5 (desde la 0 hasta la 4) para 5 accesos simultaneos al dispositivo_  
+>_"access-class telnet in" indica que la ACL "telnet" es la que queremos asignar hacia dentro._

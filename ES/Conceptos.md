@@ -4,6 +4,16 @@ Estos son los conceptos básicos que debes conocer para configurar una red con e
 
 ---
 
+## Tipos de memoria de un router  
+
+- **RAM**: Esta es la memoria volátil de un router. En esta memoria se almacenan la configuración que se está produciendo en tiepo real, así como las tablas de enrutamiento, caché de ARP. Esta memoria no se guarda al reiniciar el dispositivo y se pierden los cambios realizados. A esta memoria se le llama **Running-config**
+
+- **NVRAM**: Es una memoria no volátil que conserva los datos incluso después de un reinicio. Esta memoria almacena la configuración inicial de un dispositivo **Startup-config** que se utiliza en el proceso de arranque para cargar la configuración basica de un router.  
+
+- **Flash**: Esta memoria es la que utiliza el router para almacenar el sistema operativo del router, (el IOS en dispositivos router Cisco) y otros archivos como imegenes de configuración.
+
+---
+
 ## Paquetes de Red  
 Formato en el que se manda la información en la **capa de red (capa 3)** del modelo OSI.
 
@@ -73,13 +83,15 @@ Esto se refiere a dispositivos o IP que se comportan como puntos de acceso para 
 ## Protocolos de Servicios  
 
 - **DHCP (Dynamic Host Configuration Protocol)**: Asigna direcciones IP dinámicamente y de forma automática a los dispositivos finales.  
-- **DNS (Domain Name System)**: Traduce nombres de dominio (ej. Google.com) en direcciones IP utilizables por las máquinas.  
+- **DNS (Domain Name System)**: Traduce nombres de dominio (ej. www.dylan.com) en direcciones IP utilizables por las máquinas.  
+- **HTTP(HyperText Transfer Protocol)**: Se utiliza para alojar una pagina web desde un servidor. Tambien permite que los usuarios accedan a recursos web a traves de navegadores.
+- **TFTP(Trivial File Transfer Protocol)**: Protocolo diseñado para transferir archivos como configuraciones, firmware o copias de seguridad entre dispositivos y servidores.
 
 ---
 
 ## Access-Lists (ACLs)  
 
-Permiten restringir o conceder acceso a servicios, medios o dispositivos finales.  
+Permiten restringir o conceder acceso a servicios, medios o dispositivos finales. Las ACL son secuenciales, lo que quiere decir, que se leen de arriba hacia abajo, ppor lo que, primero deberemos añadir las lineas de host y después las de red. Solo puede haber una ACL en cada interfáz. En las estándar cuando va en una interfáz desde el router hacia la red se pone "out" y cuando va en una interfáz desde el router haci aotro router se pone "in" .  
 Se configuran en dispositivos de capa 3 y pueden ser:
 
 1. **Estándar**: Configuradas cerca del destino.  

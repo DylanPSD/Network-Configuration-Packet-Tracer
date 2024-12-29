@@ -42,8 +42,11 @@ Por defecto las interfaces estan apagadas, debemos activarlas, cuando lo hagamos
 
 >_Sigue configurando cada interfaz de manera individual utilizando direcciones IPs distintas.  (Si en un extremo configuramos la "x.x.x.1", en el otro sera la "x.x.x.2")_  
 
->_No Asignar IPs en las interfaces donde no hay IPs escritas en la topología, se configurarán VLanss mas tarde_  
+>_No Asignar IPs en las interfaces donde no hay IPs escritas en la topología, se configurarán VLanss mas tarde_   
 
+### 7.Verificar la configuración  
+Para visualizar la configuración activa escribe:  
+`show running-config`   
 
 ---  
 
@@ -65,13 +68,13 @@ Después de asignar una IP, deberemos acivar el servicio, entrando en la pestañ
 ### 3. Crear el servicio  
 En este paso configuraremos varios servicios:  
 
->HTTP: Para poder configurar el servicio HTTP. Deberemos entrar en el servicio de pone HTTP y al entrer debemos asegurarnos de que esta en "on". Los archivos que verás son los archivos de la página que se va a mostrar al abrir tu servicio HTTP o HTTPS  
+> **HTTP:** Para poder configurar el servicio HTTP. Deberemos entrar en el servicio de pone HTTP y al entrer debemos asegurarnos de que esta en "on". Los archivos que verás son los archivos de la página que se va a mostrar al abrir tu servicio HTTP o HTTPS  
 
->DNS: Para poder configurar el servicio DNS debemos acceder a la pestaña de DNS y deberemos agregarle un nombre(nosotros pondermos www.dyla.com) donde pone name y la IP del servidor HTTP en el espacio de "Address" que en nuetro caso es(190.190.32.4), Para que nos traduzca "www.dylan.com" a la IP del servidor HTTP y nos mostrará la página de la que hablaba antes.  
+> **DNS:** Para poder configurar el servicio DNS debemos acceder a la pestaña de DNS y deberemos agregarle un nombre(nosotros pondermos `www.dylan.com`) donde pone name y la IP del servidor HTTP en el espacio de "Address" que en nuetro caso es(190.190.32.4), Para que nos traduzca `www.dylan.com` a la IP del servidor HTTP y nos mostrará la página de la que hablaba antes.  
 
->TFTP: Para poder configurar el servicio TFTP que funcionará com almacén o repositorio de firmware y de archivos de configuración, como podría ser la NVRam del router, deberemos entrar en el apartado de TFTP y comprobar que esta activado. [Aquí podras ver como utilizarlo](./Cheatsheet.md). O más adelante junto con la guía.
+> **TFTP:** Para poder configurar el servicio TFTP que funcionará com almacén o repositorio de firmware y de archivos de configuración, como podría ser la NVRam del router, deberemos entrar en el apartado de TFTP y comprobar que esta activado. [Aquí podras ver como utilizarlo](./Cheatsheet.md). O más adelante junto con la guía.
 
->DHCP: Lo dejaremos para más adelante. Para poder seguir con la guía paso por paso.
+> **DHCP:** Lo dejaremos para más adelante. Para poder seguir con la guía paso por paso.
 
 
 ---  
@@ -83,8 +86,8 @@ El siguiente paso será la creación de las VLAN. Estas tendrán que ser creadas
 
 ## Pasos a seguir:  
 
-### 1. Entrar en el terminal de configuracion del switch de capa 2
-Entrar desde la pestaña de CLI del menu del switch capa 2  
+### 1. Entrar en el terminal del switch de capa 2  
+Entrar desde la pestaña de CLI del menu del switch   
 
 ### 2. Acceder al modo EXEC privilegiado  
 Escribe el siguiente comando:  
@@ -119,7 +122,11 @@ Para que los dispositivos finales tengan una VLAN asignada por ejemplo el pc0 co
 
 ### 7. Asignar VLAN de telefonía  
 Habiendo asigando alguna VLAN previamente para poder configurar una VLAN de telefonía esta debería ir configurada después de la VLAN, si no, asignar de la siguiente manera (por ejemplo para el primer teléfono):  
-`switchpor voice vlan 20`    
+`switchpor voice vlan 20`  
+
+### 8.Verificar la configuración  
+Para visualizar la configuración activa escribe:  
+`show running-config`   
 
 
 ---
@@ -142,9 +149,9 @@ __Desde el modo de configuración global del terminal de un router deberías esc
 `interface fa0/0.60`  
 `encapsulation Dot1q 60`  
 `ip address 60.0.0.1 255.255.255.0`  
->_Donde "fa0/0.60 se utiliza para referirse a la subinterfáz que deseamos crear._  
+>_Donde "fa0/0.60 se utiliza para referirse a la subinterfaz que deseamos crear._  
 
->_La parte de "encapsulation Dot1q permite que un router gestione tráfico de múltiples VLANs en una única interfáz física"_   
+>_La parte de "encapsulation Dot1q permite que un router gestione tráfico de múltiples VLANs en una única interfaz física"_   
 
 >_Para una VLAN de telefonía IP se haría igual_  
 
@@ -168,7 +175,7 @@ __Desde el modo de configuración global del terminal de un switch de capa 3:__
 
 >_La parte de "100" es el identifiacor del proceso OPSF dentro del router para distinguir entre diferentes posibles procesos puede ir desde 1 a 65535_  
 
->_La parte de "0.0.0.255" es la wildcard esta se utiliza para identificar la parte de la red y la parte de host. Aquí un link para aprender a calcular una wildcard[https://hacks4geeks.com/hacks/calcular-wildcards-de-mascaras-de-red/]_
+>_La parte de "0.0.0.255" es la wildcard esta se utiliza para identificar la parte de la red y la parte de host. Aquí un link para aprender a calcular una wildcard [LINK](https://hacks4geeks.com/hacks/calcular-wildcards-de-mascaras-de-red/)_
 
 >_La parte del código de "area 0" sirve para asociar las redes con el área principal de OSPF que suele se la "0" (Backbone Area)_  
 
@@ -177,10 +184,13 @@ __Desde el modo de configuración global del terminal de un router:__
 `network 60.0.0.0 0.0.0.255 area 0`  
 >_La parte de "100" es el identificador del proceso OPSF dentro del router para distinguir entre diferentes posibles procesos puede ir desde 1 a 65535_  
 
->_La parte de "0.0.0.255" es la wildcard esta se utiliza para identificar la parte de la red y la parte de host. Aquí un link para aprender a calcular una wildcard[https://hacks4geeks.com/hacks/calcular-wildcards-de-mascaras-de-red/]_
+>_La parte de "0.0.0.255" es la wildcard esta se utiliza para identificar la parte de la red y la parte de host. Aquí un link para aprender a calcular una wildcard [LINK](https://hacks4geeks.com/hacks/calcular-wildcards-de-mascaras-de-red/)_
 
->_La parte del código de "area 0" sirve para asociar las redes con el área principal de OSPF que suele se la "0" (Backbone Area)_  
+>_La parte del código de "area 0" sirve para asociar las redes con el área principal de OSPF que suele se la "0" (Backbone Area)_   
 
+### 2.Verificar la tabla de enrutamiento
+Para visualizar la tabla de enrutamiento escribe:  
+`show ip route`
 
 ---
 
@@ -224,7 +234,7 @@ Desde el modo de configuración global de un router o switch de capa 3, escribe 
 >_"default-router" especifica cual es la default gateway(Puerta de enlace predeterminada)_  
 
 >_"option 150 ip 40.0.0.1" sirve para utomatizar la configuración de los telefonos y la ip define cual es el servidor TFTP que en este caso el router actuara como este, conteniendo los repositorios de firmware,, archivos de configuración etc._  
-
+  
 
 ---
 
@@ -234,7 +244,7 @@ Desde el modo de configuración global de un router o switch de capa 3, escribe 
 ## Pasos a seguir:  
 
 ### 1. Configurar el router como Call Manager Express(CME)  
-Una vez crado el conjunto de DHCP ya estamos preparados para la configuracion del CME, que permite que el router actúe como servidor de telefonía. Desde el modo de configuración global de un router, Utiliza los siguientes comandos:  
+Una vez crado el conjunto de DHCP ya estamos preparados para la configuración del CME, que permite que el router actúe como servidor de telefonía. Desde el modo de configuración global de un router, Utiliza los siguientes comandos:  
 _(En este caso utilizaremos el router Alicante como ejemplo)_
 
 Habilitar la funcionalidad de telefonía con:  
@@ -280,6 +290,11 @@ __Deberás repetir la configuración en el router León para efectuar la comunic
 
 >_"session target ipv4:190.190.0.201" se utiliza para especificar la dirección IP del destino al que se enviará la llamada. Esto indica que las llamadas que coincidadn con el patron de 1... se enviarán a la ip 190.190.0.202_   
 
+### 4.Verificar la configuración  
+Para visualizar la configuración activa escribe:  
+`show running-config`   
+
+
 ---
 
 # Configuración de DHCP  
@@ -307,7 +322,7 @@ Deberemos clicar en el servidor, abrir la pestaña services y abrir DHCP
 Para que se puedan asignar las IP a los dipositivos finales debemos configurar la interfaz del router, en este caso "CACERES", desde 
 el modo de configuración global escribir:  
 `ip helper-address 190.190.32.3`  
->Con esto señalamos al servidor con la IP "190.190.32.3" como servidor DHCP _Hacer también een la otra interfaz_
+>Con esto señalamos al servidor con la IP "190.190.32.3" como servidor DHCP _Hacer también en la otra interfaz_
 
 #### _Para continuar con la guía deberás crear otro ámbito DHCP para la red 190.190.100.0_  
 
@@ -363,14 +378,15 @@ Para poder copiar la memoriá al servidor TFTP deberesmo escribir:
 # configuración de ACL estándar
 
 ---
-
+**_Para la configuración de las ACL extendidas hemos creado dos copias de la topología para que no interfiera en la configuración de las diferentes ACL y tampoco en la traducción de direcciones ip que veremos más adelante_**
 >Para poder configurar una ACL deberemos tener claro donde se deben configurar que está explicado en [Conceptos](./Conceptos.md). Nosotros estaremos utiilizando el enunciado [Enunciado](./enunciado.md) como ejemplo para explicar las ACL.
 ## Pasos a seguir:  
 
 ### 1. Crear la ACL estándar
 
 - **ACL estándar numerada**
-La ACL estándar numerada se debe crear desde el modo de configuración global como en el siguiente ejemplo.
+La ACL estándar numerada se debe crear desde el modo de configuración global como en el siguiente ejemplo.  
+
 `ip access-list 1 permit host 190.190.100.11`  
 `ip access-list 1 permit host 190.190.100.12`  
 `ip access-list 1 permit host 190.190.200.26`  
@@ -378,10 +394,14 @@ La ACL estándar numerada se debe crear desde el modo de configuración global c
 `ip access-list 1 deny 190.190.100.0 255.255.255.0`  
 `ip access-list 1 deny any`
 
->_"ip access-list 1" hace referencia a la creación de la access-list con el nº 1_
->_"permit 190.190.x.x" permite el acceso del equipoo con dicha IP a la red de servidores_  
->_"deny 190.190.100.0 255.255.255.0" deniega el acceso de la red 190.190.100.0 a la red de servidores_  
->_"deny any" lo que hace es denegar todo el trafico a la red. Aunque se deniega el trafico nada mas crear una ACL nosotros lo pondremos ya que se requiere en el enunciado._
+>_"ip access-list 1" hace referencia a la creación de la access-list con el nº 1_  
+
+>_"permit 190.190.x.x" permite el acceso del equipoo con dicha IP a la red de servidores_   
+
+>_"deny 190.190.100.0 255.255.255.0" deniega el acceso de la red 190.190.100.0 a la red de servidores_    
+
+>_"deny any" lo que hace es denegar todo el trafico a la red. Aunque se deniega el trafico nada mas crear una ACL nosotros lo pondremos ya que se requiere en el enunciado._  
+
 
 - **ACL estándar nombrada**  
 La ACL estándar nombrada se debe crear desde el modo de configuración global como en el siguiente ejemplo.  
@@ -389,20 +409,22 @@ La ACL estándar nombrada se debe crear desde el modo de configuración global c
 `permit 190.190.100.0 255.255.255.0`  
 `deny any`  
 
->_"ip access-list standard vty" crea y nos mueve al menú de la ACL "telnet"_  
+>_"ip access-list standard vty" crea y nos mueve al menú de la ACL "telnet"_    
+
 >_"permit 190.190.100.0 255.255.255.0" permite el acceso de la red "190.190.100.0" a las lines VTY del router Madrid_  
 
-### 2. Asignar la ACL a la interfáz
-Las ACL se asignan a la interfáz de manera similar. Nosotros haremos una distinción ya que con la ACL estándar nombrada vamos a estar controlando las lines VTY del router Madrid.
+### 2. Asignar la ACL a la interfaz
+Las ACL se asignan a la interfaz de manera similar. Nosotros haremos una distinción ya que con la ACL estándar nombrada vamos a estar controlando las lines VTY del router Madrid.  
 
 - **ACL estándar numerada**  
-Para asiganar la ACL a una interfáz, en este caso del router "AVILA" desde el modo de configuración global escribe lo siguiente:  
+Para asiganar la ACL a una interfaz, en este caso del router "AVILA" desde el modo de configuración global escribe lo siguiente:  
 
 `interface fa0/0`  
 `ip access-group 1 out`  
 
->_"interface fa0/0" se utiliza para entrar en la interfáz_  
->_"ip access-group 1 out" se utiliza para asignar la ACL nº 1 a la interfáz como "out". El 1 se puede cambiar por un nombre_
+>_"interface fa0/0" se utiliza para entrar en la interfaz_  
+
+>_"ip access-group 1 out" se utiliza para asignar la ACL nº 1 a la  interfaz y "out" ya que los paquetes a tratar por la ACL van hacia fuera del router(al destino)._
 
 - **ACL estándar nombrada VTY**
 Para asignar la ACL a las lineas VTY, en este caso del router MADRID, desde el modo de configuración global escribe lo siguiente:  
@@ -411,4 +433,144 @@ Para asignar la ACL a las lineas VTY, en este caso del router MADRID, desde el m
 `access-class telnet in`  
 
 >_"line vty 0 4" se utiliza para acceder a las lines VTY en este caso son 5 (desde la 0 hasta la 4) para 5 accesos simultaneos al dispositivo_  
->_"access-class telnet in" indica que la ACL "telnet" es la que queremos asignar hacia dentro._
+>_"access-class telnet in" indica que la ACL "telnet" es la que queremos asignar e "in" porque los paquetes a tratar por la ACL van desde toda la red hacia dentro del router._   
+
+### 3.Verificar la creación de la ACL  
+Para visualizar las ACL escribe:  
+`show access-lists`   
+
+---
+
+# Configuración de ACL extendida
+
+---  
+
+> Para poder configurar una ACL deberemos tener claro donde se deben configurar que está explicado en [Conceptos](./Conceptos.md). Nosotros estaremos utiilizando el enunciado [Enunciado](./enunciado.md) como ejemplo para explicar las ACL.  
+## Pasos a seguir:  
+
+### 1. Crear la ACL extendida  
+En este caso crearemos ACL extendidas nombradas. Haremos varios ejemplos para ver los diferentes tipos de protocolos de transporte y de servicios.  
+
+- **Para crear una ACL extendida en este caso desde el router Caceres escribe lo siguiente desde el modo de configuración global:**  
+`ip access-list extended cáceres`  
+`deny ip host 190.190.16.11 190.190.32.0 0.0.0.255`  
+`deny ip host 190.190.100.14 host 190.190.32.5`  
+`permit ip 190.190.16.0 0.0.0.255 190.190.32.0 0.0.0.255`  
+`permit ip 190.190.100.0 0.0.0.255 190.190.32.0 0.0.0.255`  
+
+>_"host" hace referencia a que la direccion IP que se va introducir es un host por lo que no hará falta poner la wildcard_  
+
+>_"ip" hace referencia al protocolo IP que va a ser el cual vamos a estar controlando, en este caso, en la ACL_
+
+- **Aqui crearemos la siguiente ACL extendida nombrada para poder ver un ejemplo de otro protocolo.Desde el mismo router escribiremos lo siguiente:**  
+`ip access-list extended ping`  
+`deny icmp host 190.190.16.14 host 190.190.200.30`  
+`deny icmp host 190.190.16.14 190.190.100.0 0.0.0.255`  
+`permit icmp aany any`  
+
+>_Donde "icmp" hace referencia al protocolo icmp que será el que estaremos controlando mediante las ACL(este es el protocolo utilizado para hacer ping entre dispositivos)_   
+
+>_Donde "any" se utiliza para referirsea cualquier red o host_   
+
+
+- **Como última ACL crearemos en el router LEON escribiendo lo siguiente:**  
+`ip access-list extended tftp`  
+`permit udp host 192.192.0.193 host 190.190.32.5 eq tftp`  
+`deny udp any any`  
+
+>_Donde "udp" especifica el protocolo que va a ser controlado por esta ACL_   
+
+>_Donde "eq" significa "equals to", lo que sirve para poder definir un purto o protocolo especifico, en este caso, tftp_  
+
+### 2. Asignar la ACL a la interfaz  
+
+Para asignar las ACL deberemos tener claro que dos ACL no pueden compartir interfaz, ya que una interfaz es únicamente restrictiva para el pc0 que está en la red "190.190.16.0", una ACL irá en la interfaz de la red 190.190.16.0 y la otra en la interfaz que está conectada con el router Toledo escribiendo lo siguiente:  
+
+- **ACL "cáceres"**  
+Esta será la ACL asignada en la interfaz serial conectada al router Toledo, desde el modo de configuración global escribe:  
+`interface se/2/0`  
+`ip access-group caceres out`  
+
+>_"out" en este caso porque los paquetes a tratar por la acl viajarán desde el router hacia fuera_
+
+- **ACL "ping"**  
+Esta será la ACL asignada a la interfaz de la red 190.190.16.0, desde el modo de configuración global escribe:  
+`interface fa0/0`  
+`ip access-group ping in`  
+
+>_"in" en este caso ya que los paquetes a tratar por la ACL van desde la red 190.190.16.0 hacia dentro del router_   
+
+- **ACL tftp**  
+Esta será la ACL asignada a la interfaz serial conectada al router Toledo, desde el modo de configuración global escribe:  
+`interface se0/0/1`  
+`ip access-group tftp out`  
+
+>_Como hemos dicho antes "out" ya que el paquete a controlar por la ACL va hacia fuera del router_   
+
+### 7.Verificar la creación de la ACL  
+Para visualizar las ACL escribe:  
+`show access-lists`   
+
+
+---  
+
+# NAT y PAT  
+
+---  
+
+## Pasos a seguir:  
+En este apartado configuraremos la traducción de las ip locales a ip globales, esto lo configuraremos en el router fronterizo que es el utlimo router antes del ISP, en nuestro caso será el router "MADRID". Nosotros estaremos configurando paso a paso el NAT y PAT del enunciado adjunto en [ENUNCIADO](./enunciado)  
+
+### 1. Crear las ACL  
+Para realizar Traducciones dinámicas ya sea NAT o PAT necesitaremos crear ACLs en este caso estándar, donde estaran permitidas o denegadas las redes o host a traducir. Nosotros crearemos dos, una para NAT dinámico y otra para PAT a puerto, desde el modo de configuración global del router MADRID escribiremos:  
+
+- **NAT dinámico**
+```arduino
+`ip access-list standard NATDIN`  
+`permit 190.190.16.0 0.0.0.255`  
+`permit 190.190.200.0 0.0.0.3`  
+``` 
+
+- **PAT a puerto** 
+```arduino 
+`ip access-list standard PATPU`  
+`deny host 190.190.200.27`  
+`permit 190.190.200.0 0.0.0.255`  
+```
+
+### 2. Crear el conjunto de IP NAT  
+Para realizar traducciones dinámicas necesitaremos crear conjuntos de direcciones IP, que son las IP públicas a las que se van a traducir nuestras IP locales. Nosotros solo crearemos una ya que la traducción de PAT a puerto traduce las IP locales en IP publicas de la red configurada en la interfaz a laque sel ve va a asignar la traduccion PAT. Desde el router MDRID escribiremos:  
+
+```sql
+ip nat pool NATPUB 195.195.195.20 195.195.195.45 netmask 255.255.255.0
+```  
+
+>_"ip nat pool NATPUB" crea el conjunto de IPs que en este caso es un rango y le asigna el nombre de NATPUB_  
+
+>_Al tener dos IP lo que hace es especificar el rango que hay entre x.x.x.20 y x.x.x.45. En este caso_  
+
+### 3. Configurar la traducción  
+Para configurar la traducción deberemos especificarle una ACL de entrada para definir las IP para traducir y un conjunto de IP públicas que seran a las que se traduciran las IP locales. Tambien podremos definir un puerto por el que se traduciran como es el caso de PAT. Para ello desde el router MADRID escribiremos:  
+
+- **NAT dinámico**
+```bash
+ip nat inside source list NATDIN pool NATPUB
+```  
+
+>_Donde "ip nat inside source list" es la entrada que solicita que ingresemos una ACL con IP para que sean traducidas_
+
+>_donde "pool" no solicita un conjunto de IP publicas que seran a lo que se traduzca la lista_  
+
+- **PAT a puerto**  
+
+```bash
+ip nat inside source list PATPU interface serial3/0 overload
+```  
+
+>_Donde "interface serial3/0" es el peurto por el que van a ser tredcidas las IP de la ACL PATPU_  
+
+>_Donde "overload" significa sobrecarga que es una caracteristica del PAT, lo que hace es sobrecargar un puerto o una IP, lo que quiere decir que, varias IP pueden traducirse en el mismo puerto, o si tuviesemos conjuto de IP que varias IP se puedan traducir a la misma IP_  
+
+### 4. Verificar la traduccion de IP  
+Para visualizar las traducciones, manda paquetes con el boton de la interfaz principal de Packet Tracer con forma de carta. Una vez enviados los paquetes, desde el router donde hemos configurado NAT y PAT escribe:  
+`show ip nat translation`

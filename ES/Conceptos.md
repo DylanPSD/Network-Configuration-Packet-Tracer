@@ -91,14 +91,14 @@ Esto se refiere a dispositivos o IP que se comportan como puntos de acceso para 
 
 ## Access-Lists (ACLs)  
 
-Permiten restringir o conceder acceso a servicios, medios o dispositivos finales. Las ACL son secuenciales, lo que quiere decir, que se leen de arriba hacia abajo, ppor lo que, primero deberemos añadir las lineas de host y después las de red. Solo puede haber una ACL en cada interfáz. En las estándar cuando va en una interfáz desde el router hacia la red se pone "out" y cuando va en una interfáz desde el router haci aotro router se pone "in" .  
+Permiten restringir o conceder acceso a servicios, medios o dispositivos finales. Las ACL son secuenciales, lo que quiere decir, que se leen de arriba hacia abajo, ppor lo que, primero deberemos añadir las lineas de host y después las de red. Solo puede haber una ACL en cada interfáz. En las estándar cuando va en una interfáz desde el router hacia la red se pone "out" y cuando va en una interfáz desde el router hacia otro router se pone "in" .  
 Se configuran en dispositivos de capa 3 y pueden ser:
 
-1. **Estándar**: Configuradas cerca del destino.  
+1. **Estándar**: Configuradas cerca del destino, solo es necesario especificar la red o ip origen que deseamos controlar.  
    - **Numeradas**: Identificadas con un número, no editables tras su configuración.  
    - **Nombradas**: Identificadas con un nombre, editables tras su configuración.  
 
-2. **Extendidas**: Configuradas cerca de la fuente para un mayor control.  
+2. **Extendidas**: Configuradas cerca de la fuente para un mayor control, se debe especificar el origen y destino, y las especificaciones de las comunicaciones a controlar, como podria ser el protocolo de comunicación y el puerto4 .  
    - **Numeradas**: Identificadas con un número, no editables tras su configuración.  
    - **Nombradas**: Identificadas con un nombre, editables tras su configuración. 
 
@@ -134,4 +134,6 @@ Protocolo similar a NAT pero permite traducción de múltiples direcciones priva
 
 ---
 
-Con este resumen de conceptos, estás listo para seguir esta guía de configuracion en **Packet Tracer**.
+Con este resumen de conceptos, estás listo para seguir esta guía de configuracion en **Packet Tracer**. [GUIA](./Guia.md)
+
+
